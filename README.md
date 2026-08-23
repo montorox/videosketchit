@@ -2,6 +2,10 @@
 
 An independent, local edition of [ChenShuo2004/cs-board](https://github.com/ChenShuo2004/cs-board). It replaces the active OpenLux planning and image path with Codex, using each user's own ChatGPT/Codex sign-in. Audio processing, alignment, animation, project files, and final rendering remain on the user's computer.
 
+> ### Sponsored by AIDB
+>
+> Discover AI tools, workflows, and practical resources at **[The AIDB Platform](https://theaidb.net)**.
+
 - Independent frontend: `http://127.0.0.1:13010`
 - Independent backend: `http://127.0.0.1:18775`
 - Independent history and configuration: `.cs-board-codex/`
@@ -40,7 +44,24 @@ You need:
 
 The recommended **Upload Finished Narration** workflow does not require Qwen3-TTS or IndexTTS. Install a local voice service only if you want the app to synthesize narration from a short reference sample.
 
-## Recommended installation: Pinokio
+## Installation
+
+### Method 1 — Let Codex install it (easiest)
+
+This is the recommended route for non-technical users. Open Codex on the computer where you want to install the app, start a new task, and paste this prompt:
+
+```text
+Read this repository page and install the app in English:
+https://github.com/montorox/cs-board-codex
+
+Install it in a new, separate folder without replacing any existing CS Board installation. Inspect the README and installer files, check the required software, install the dependencies, use my existing Codex sign-in where possible, start the app, and verify that it opens at http://127.0.0.1:13010/. Ask me before any step that requires my login, password, or approval.
+```
+
+Keep Codex open while it works. It can inspect the repository, run the appropriate Mac or Windows installation steps, diagnose common setup errors, launch the services, and verify the local page. You may still need to approve software installation or complete a browser sign-in yourself.
+
+After installation, use **Upload Finished Narration** for the quickest first test: upload a complete MP3/WAV and paste the matching script.
+
+### Method 2 — Install with Pinokio
 
 Pinokio is the simplest installation path on Mac and Windows because the repository already contains an installer and launcher definition.
 
@@ -54,9 +75,9 @@ Pinokio is the simplest installation path on Mac and Windows because the reposit
 
 Pinokio starts the interface at `http://127.0.0.1:13010`. Generated files and settings are stored in `.cs-board-codex/` and are excluded from Git.
 
-## Manual installation on macOS
+### Method 3 — Manual installation on macOS
 
-### 1. Install system requirements
+#### 1. Install system requirements
 
 Install Git, Python 3.11, Node.js 22, `uv`, and FFmpeg. With Homebrew:
 
@@ -71,7 +92,7 @@ codex login
 codex login status
 ```
 
-### 2. Download and install the app
+#### 2. Download and install the app
 
 ```bash
 git clone https://github.com/montorox/cs-board-codex.git
@@ -90,7 +111,7 @@ cd ..
 .venv/bin/python scripts/prepare_env.py --check
 ```
 
-### 3. Start the app
+#### 3. Start the app
 
 ```bash
 chmod +x start-codex.command
@@ -99,11 +120,11 @@ chmod +x start-codex.command
 
 The launcher starts both local services and opens `http://127.0.0.1:13010`.
 
-## Manual installation on Windows 11
+### Method 4 — Manual installation on Windows 11
 
 The Windows launcher is included, but this build still needs validation on a real Windows 11 machine. Until that test is complete, describe Windows support as **preview**.
 
-### 1. Install system requirements
+#### 1. Install system requirements
 
 Install these applications and ensure their commands are available in PowerShell:
 
@@ -128,7 +149,7 @@ codex login
 codex login status
 ```
 
-### 2. Download and install the app
+#### 2. Download and install the app
 
 ```powershell
 git clone https://github.com/montorox/cs-board-codex.git
@@ -149,7 +170,7 @@ Pop-Location
 .venv\Scripts\python.exe scripts\prepare_env.py --check
 ```
 
-### 3. Start the app
+#### 3. Start the app
 
 Double-click `start-codex.bat`, or run:
 
