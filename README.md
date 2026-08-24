@@ -85,6 +85,18 @@ Open Pinokio, select VideoSketchIt, choose **Start**, and then choose **Open Vid
 
 If the browser does not open automatically, open Chrome, Safari, or Edge and enter `http://127.0.0.1:13010` in the address bar. Double-clicking the launcher again is also safe; it will open the already-running app rather than create a second copy. Your projects remain saved on your computer.
 
+### First launch: connect your ChatGPT account
+
+You can open VideoSketchIt before signing in. After it opens:
+
+1. Select **Connections** in the upper-right corner.
+2. Look at the ChatGPT status near the top of the Connections panel.
+3. If it says **ChatGPT connected**, you are ready. VideoSketchIt found an existing Codex sign-in on this computer, so no further action is required.
+4. If it says **Connect your ChatGPT account**, select **Sign in with ChatGPT**.
+5. Complete the sign-in in the browser window that opens, then return to VideoSketchIt. The status should change to **ChatGPT connected** automatically.
+
+This normally needs to be done only once. VideoSketchIt reuses the local Codex session on later launches until you sign out or the session expires. Merely being signed into `chatgpt.com` in a browser may not be enough—the **Connections** panel is the reliable place to confirm that VideoSketchIt is connected.
+
 ### Method 1 — Let Codex install it (easiest)
 
 This is the recommended route for non-technical users. Open Codex on the computer where you want to install the app, start a new task, and paste this prompt:
@@ -221,6 +233,8 @@ Double-click `VideoSketchIt.bat`, or run:
 The launcher starts both local services and opens `http://127.0.0.1:13010`.
 
 ## Create your first video
+
+Before generating, open **Connections** and confirm that the status says **ChatGPT connected**. If it does not, select **Sign in with ChatGPT** and complete the browser sign-in.
 
 ### Fast route: use a finished voiceover
 
