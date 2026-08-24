@@ -38,9 +38,9 @@ Each user signs in with their own account. Codex officially supports ChatGPT sig
 
 | Platform | Status | Launcher |
 | --- | --- | --- |
-| macOS Apple Silicon | Tested | `VideoSketchIt.command`, `start-videosketchit.command`, or Pinokio |
-| macOS Intel | Expected to work; community testing needed | `VideoSketchIt.command`, `start-videosketchit.command`, or Pinokio |
-| Windows 11 | Launcher included; real Windows validation still required before calling it fully supported | `VideoSketchIt.bat`, `start-videosketchit.bat`, or Pinokio |
+| macOS Apple Silicon | Tested | Double-click `VideoSketchIt.command`, or use Pinokio |
+| macOS Intel | Expected to work; community testing needed | Double-click `VideoSketchIt.command`, or use Pinokio |
+| Windows 11 | Launcher included; real Windows validation still required before calling it fully supported | Double-click `VideoSketchIt.bat`, or use Pinokio |
 | Linux | Not packaged or tested | Manual setup may work |
 
 ## Before installing
@@ -56,6 +56,35 @@ The recommended **Upload Finished Narration** workflow does not require Qwen3-TT
 
 ## Installation
 
+### How to open VideoSketchIt after installation
+
+You do **not** need to reinstall VideoSketchIt each time you use it.
+
+#### On a Mac
+
+1. Open the `videosketchit` folder that was created during installation.
+2. Find **`VideoSketchIt.command`**.
+3. Double-click it.
+4. Wait while the launcher starts VideoSketchIt. The Terminal window may close when startup is complete.
+5. VideoSketchIt should open automatically in your browser at `http://127.0.0.1:13010`.
+
+If macOS blocks the file the first time, Control-click `VideoSketchIt.command`, choose **Open**, and then choose **Open** again. You normally only need to do this once.
+
+> `start-videosketchit.command` is the technical Terminal launcher used behind the scenes. Most Mac users should ignore it and double-click `VideoSketchIt.command` instead.
+
+#### On Windows
+
+1. Open the `videosketchit` folder that was created during installation.
+2. Double-click **`VideoSketchIt.bat`**.
+3. Wait while the launcher starts VideoSketchIt. The Command Prompt window may close when startup is complete.
+4. VideoSketchIt should open automatically in your browser at `http://127.0.0.1:13010`.
+
+#### If you installed with Pinokio
+
+Open Pinokio, select VideoSketchIt, choose **Start**, and then choose **Open VideoSketchIt**.
+
+If the browser does not open automatically, open Chrome, Safari, or Edge and enter `http://127.0.0.1:13010` in the address bar. Double-clicking the launcher again is also safe; it will open the already-running app rather than create a second copy. Your projects remain saved on your computer.
+
 ### Method 1 — Let Codex install it (easiest)
 
 This is the recommended route for non-technical users. Open Codex on the computer where you want to install the app, start a new task, and paste this prompt:
@@ -64,7 +93,7 @@ This is the recommended route for non-technical users. Open Codex on the compute
 Read this repository page and install VideoSketchIt in English:
 https://github.com/montorox/videosketchit
 
-Install it in a new, separate folder without replacing any existing CS Board installation. Inspect the README and installer files, check the required software, install the dependencies, use my existing Codex sign-in where possible, start the app, and verify that it opens at http://127.0.0.1:13010/. Ask me before any step that requires my login, password, or approval.
+Install it in a new, separate folder without replacing any existing CS Board installation. Inspect the README and installer files, check the required software, install the dependencies, use my existing Codex sign-in where possible, start the app, and verify that it opens at http://127.0.0.1:13010/. When finished, tell me the exact installation folder and show me the one file I should double-click whenever I want to use VideoSketchIt again. Ask me before any step that requires my login, password, or approval.
 ```
 
 Keep Codex open while it works. It can inspect the repository, run the appropriate Mac or Windows installation steps, diagnose common setup errors, launch the services, and verify the local page. You may still need to approve software installation or complete a browser sign-in yourself.
@@ -125,10 +154,11 @@ cd ..
 
 ```bash
 chmod +x start-videosketchit.command VideoSketchIt.command
-./start-videosketchit.command
 ```
 
-The launcher starts both local services and opens `http://127.0.0.1:13010`.
+Installation is now complete. In Finder, open the `videosketchit` folder and double-click `VideoSketchIt.command`. The launcher starts both local services and opens `http://127.0.0.1:13010`.
+
+Terminal users may run `./start-videosketchit.command` instead.
 
 ### Method 4 — Manual installation on Windows 11
 
