@@ -30,7 +30,15 @@ from webapp.codex_bridge import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-STATE_DIR = ROOT / ".cs-board-codex"
+LEGACY_STATE_DIR = ROOT / ".cs-board-codex"
+STATE_DIR = ROOT / ".videosketchit"
+if not STATE_DIR.exists() and LEGACY_STATE_DIR.exists():
+    try:
+        LEGACY_STATE_DIR.rename(STATE_DIR)
+    except OSError:
+        # Keep existing projects usable if an antivirus, backup tool, or another
+        # process temporarily prevents the one-time directory migration.
+        STATE_DIR = LEGACY_STATE_DIR
 JOBS_DIR = STATE_DIR / "jobs"
 CONFIG_PATH = STATE_DIR / "config.json"
 PREFERENCES_PATH = STATE_DIR / "preferences.json"
@@ -38,7 +46,7 @@ PYTHON = ROOT / ".venv" / ("Scripts/python.exe" if sys.platform.startswith("win"
 NODE = shutil.which("node") or "node"
 REMOTION_RENDERER = ROOT / "video_renderer"
 HAND = ROOT / "assets" / "drawing-hand-clean.png"
-PIPELINE_VERSION = "narrated_deck_v9_codex_subscription"
+PIPELINE_VERSION = "videosketchit_v10_codex_provider"
 ALIGNMENT_SEGMENTATION = "word-boundary-dtw-audio-v2"
 
 DEFAULT_CONFIG = {

@@ -59,8 +59,8 @@ class CodexAppServer:
             "initialize",
             {
                 "clientInfo": {
-                    "name": "cs_board_codex",
-                    "title": "CS Board Codex Edition",
+                    "name": "videosketchit",
+                    "title": "VideoSketchIt",
                     "version": "1.0.0",
                 }
             },

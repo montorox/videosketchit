@@ -2,8 +2,8 @@
 setlocal
 cd /d "%~dp0"
 
-if not exist "start-webapp.ps1" (
-    echo ERROR: start-webapp.ps1 was not found.
+if not exist "start-videosketchit.ps1" (
+    echo ERROR: start-videosketchit.ps1 was not found.
     pause
     exit /b 1
 )
@@ -49,11 +49,11 @@ if not exist "web\node_modules" (
     exit /b 1
 )
 
-echo Starting CS Board Codex Edition...
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0start-webapp.ps1"
+echo Starting VideoSketchIt...
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0start-videosketchit.ps1"
 if errorlevel 1 (
     echo.
-    echo Startup failed. See .cs-board-codex\launcher-error.log for details.
+    echo Startup failed. See .videosketchit\launcher-error.log for details.
     pause
     exit /b 1
 )

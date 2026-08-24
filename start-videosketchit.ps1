@@ -2,15 +2,19 @@ $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $python = Join-Path $root ".venv\Scripts\python.exe"
 $webRoot = Join-Path $root "web"
-$stateDir = Join-Path $root ".cs-board-codex"
+$legacyStateDir = Join-Path $root ".cs-board-codex"
+$stateDir = Join-Path $root ".videosketchit"
 $launcherErrorLog = Join-Path $stateDir "launcher-error.log"
 $backendOutputLog = Join-Path $stateDir "backend-output.log"
 $backendErrorLog = Join-Path $stateDir "backend-error.log"
 $frontendOutputLog = Join-Path $stateDir "frontend-output.log"
 $frontendErrorLog = Join-Path $stateDir "frontend-error.log"
-$expectedPipelineVersion = "narrated_deck_v9_codex_subscription"
+$expectedPipelineVersion = "videosketchit_v10_codex_provider"
 $backendUpdateDeferred = $false
 
+if ((Test-Path -LiteralPath $legacyStateDir) -and -not (Test-Path -LiteralPath $stateDir)) {
+    Move-Item -LiteralPath $legacyStateDir -Destination $stateDir
+}
 New-Item -ItemType Directory -Force -Path $stateDir | Out-Null
 Remove-Item -LiteralPath $launcherErrorLog -Force -ErrorAction SilentlyContinue
 
@@ -66,7 +70,7 @@ try {
         Where-Object { $_.IPAddress -match '^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)' } |
         Select-Object -First 1 -ExpandProperty IPAddress
 
-    Write-Host "Starting CS Board Codex Edition..." -ForegroundColor Cyan
+    Write-Host "Starting VideoSketchIt..." -ForegroundColor Cyan
     Write-Host "Local URL: http://127.0.0.1:13010"
     if ($lanAddress) {
         Write-Host "LAN URL: http://${lanAddress}:13010" -ForegroundColor Green
@@ -103,10 +107,10 @@ try {
     }
 
     if (-not $backendReady) {
-        throw "Backend failed to start. See .cs-board-codex\backend-error.log."
+        throw "Backend failed to start. See .videosketchit\backend-error.log."
     }
     if (-not $frontendReady) {
-        throw "Frontend failed to start. See .cs-board-codex\frontend-error.log."
+        throw "Frontend failed to start. See .videosketchit\frontend-error.log."
     }
 
     Write-Host "Ready. Opening the browser..." -ForegroundColor Green

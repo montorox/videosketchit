@@ -30,12 +30,13 @@ test("server-renders the whiteboard video application", async () => {
 
   const html = await response.text();
   assert.match(html, /<html lang="en">/i);
-  assert.match(html, /<title>Warmth Studio Codex \| Subscription-Powered Video Workshop<\/title>/i);
+  assert.match(html, /<title>VideoSketchIt \| Animated Sketch Video Studio<\/title>/i);
   assert.match(html, /Turn your ideas into a whiteboard video that speaks/);
-  assert.match(html, /Upload Reference Audio/);
+  assert.match(html, /Upload Finished Narration/);
   assert.match(html, /Generate Video/);
   assert.match(html, /Connections/);
-  assert.match(html, /Warmth Studio · Codex/);
+  assert.match(html, /VideoSketchIt/);
+  assert.match(html, /by AIDB/);
   assert.doesNotMatch(html, /Your site is taking shape|Building your site/);
 });
 
@@ -50,7 +51,7 @@ test("keeps public defaults portable and free of local configuration", async () 
   assert.match(page, /NEXT_PUBLIC_API_BASE\|\|"http:\/\/127\.0\.0\.1:18775"/);
   assert.doesNotMatch(page, /api_key|api\.openlux\.ai/i);
   assert.doesNotMatch(page, /192\.168\.|10\.\d+\.\d+\.\d+/);
-  assert.match(layout, /title:\s*"Warmth Studio Codex \| Subscription-Powered Video Workshop"/);
+  assert.match(layout, /title:\s*"VideoSketchIt \| Animated Sketch Video Studio"/);
   assert.match(packageJson, /"build": "vinext build"/);
   assert.match(packageJson, /"test": "npm run build/);
 });

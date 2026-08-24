@@ -1,7 +1,7 @@
 module.exports = {
   version: "5.0",
-  title: "CS Board · Codex Edition",
-  description: "Create narrated whiteboard and infographic videos with your ChatGPT/Codex subscription.",
+  title: "VideoSketchIt by AIDB",
+  description: "Turn scripts and narration into animated sketch and infographic videos.",
   icon: "../web/public/brand-mark.png",
   pre: [{
     title: "ChatGPT or Codex",
@@ -26,7 +26,7 @@ module.exports = {
       const local = info.local("start.js");
       if (local && local.url) {
         return [
-          { default: true, icon: "fa-solid fa-rocket", text: "Open Codex Edition", href: local.url },
+          { default: true, icon: "fa-solid fa-rocket", text: "Open VideoSketchIt", href: local.url },
           { icon: "fa-solid fa-terminal", text: "Terminal", href: "start.js" },
         ];
       }

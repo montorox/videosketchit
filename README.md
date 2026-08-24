@@ -1,6 +1,10 @@
-# CS Board · Codex Edition
+# VideoSketchIt
 
-An independent, local edition of [ChenShuo2004/cs-board](https://github.com/ChenShuo2004/cs-board). It replaces the active OpenLux planning and image path with Codex, using each user's own ChatGPT/Codex sign-in. Audio processing, alignment, animation, project files, and final rendering remain on the user's computer.
+**Turn scripts and narration into animated sketch videos.**
+
+![VideoSketchIt by AIDB — scripts to animated videos](docs/videosketchit-social-thumbnail.png)
+
+VideoSketchIt by AIDB is a local, open-source video creator and an independent adaptation of [ChenShuo2004/cs-board](https://github.com/ChenShuo2004/cs-board). The current AI provider uses each user's own ChatGPT/Codex sign-in for planning and illustrations. Audio processing, alignment, animation, project files, and final rendering remain on the user's computer. The product identity is provider-independent so additional agents and services can be added in future releases.
 
 > ### Sponsored by AIDB
 >
@@ -8,15 +12,15 @@ An independent, local edition of [ChenShuo2004/cs-board](https://github.com/Chen
 
 - Independent frontend: `http://127.0.0.1:13010`
 - Independent backend: `http://127.0.0.1:18775`
-- Independent history and configuration: `.cs-board-codex/`
+- Independent history and configuration: `.videosketchit/`
 - Recommended installer: [Pinokio launcher](launcher/README.md)
 - License: [MIT](LICENSE)
 
-This is an unofficial community adaptation, not an OpenAI product and not a replacement for the original repository. If you want the original Windows/OpenLux workflow, use the [upstream project](https://github.com/ChenShuo2004/cs-board).
+This is an unofficial community adaptation, not an OpenAI product and not a replacement for the original repository. The current release supports Codex as its AI provider; VideoSketchIt itself is not named for or limited to one provider. If you want the original Windows/OpenLux workflow, use the [upstream project](https://github.com/ChenShuo2004/cs-board).
 
 ## What this edition changes
 
-- Uses Codex for script analysis, storyboarding, and image generation.
+- Uses Codex as the current provider for script analysis, storyboarding, and image generation.
 - Supports **finished narration uploads** from ElevenLabs, a microphone recording, or another voice service. This is the fastest route and does not need a local TTS server.
 - Retains optional local voice cloning through compatible Qwen3-TTS or IndexTTS Gradio services.
 - Adds an English interface, Mac launchers, Windows launchers, checkpoint recovery, job history, custom visual references, and dynamic infographic mode.
@@ -28,9 +32,9 @@ Each user signs in with their own account. Codex officially supports ChatGPT sig
 
 | Platform | Status | Launcher |
 | --- | --- | --- |
-| macOS Apple Silicon | Tested | `start-codex.command` or Pinokio |
-| macOS Intel | Expected to work; community testing needed | `start-codex.command` or Pinokio |
-| Windows 11 | Launcher included; real Windows validation still required before calling it fully supported | `start-codex.bat` or Pinokio |
+| macOS Apple Silicon | Tested | `VideoSketchIt.command`, `start-videosketchit.command`, or Pinokio |
+| macOS Intel | Expected to work; community testing needed | `VideoSketchIt.command`, `start-videosketchit.command`, or Pinokio |
+| Windows 11 | Launcher included; real Windows validation still required before calling it fully supported | `VideoSketchIt.bat`, `start-videosketchit.bat`, or Pinokio |
 | Linux | Not packaged or tested | Manual setup may work |
 
 ## Before installing
@@ -51,8 +55,8 @@ The recommended **Upload Finished Narration** workflow does not require Qwen3-TT
 This is the recommended route for non-technical users. Open Codex on the computer where you want to install the app, start a new task, and paste this prompt:
 
 ```text
-Read this repository page and install the app in English:
-https://github.com/montorox/cs-board-codex
+Read this repository page and install VideoSketchIt in English:
+https://github.com/montorox/videosketchit
 
 Install it in a new, separate folder without replacing any existing CS Board installation. Inspect the README and installer files, check the required software, install the dependencies, use my existing Codex sign-in where possible, start the app, and verify that it opens at http://127.0.0.1:13010/. Ask me before any step that requires my login, password, or approval.
 ```
@@ -69,11 +73,11 @@ Pinokio is the simplest installation path on Mac and Windows because the reposit
 2. Download or clone this repository to your computer.
 3. Open the repository's `launcher` folder in Pinokio.
 4. Select **Install** and wait for the Python, frontend, and renderer dependencies to finish.
-5. Select **Start**, then select **Open Codex Edition**.
+5. Select **Start**, then select **Open VideoSketchIt**.
 6. In the app, open **Connections** and choose **Sign in with ChatGPT** if your Codex session is not already detected.
 7. For the fastest first test, select **Upload Finished Narration**, upload the complete MP3/WAV and paste the matching script.
 
-Pinokio starts the interface at `http://127.0.0.1:13010`. Generated files and settings are stored in `.cs-board-codex/` and are excluded from Git.
+Pinokio starts the interface at `http://127.0.0.1:13010`. Generated files and settings are stored in `.videosketchit/` and are excluded from Git. Existing `.cs-board-codex/` data from an earlier release is migrated automatically.
 
 ### Method 3 — Manual installation on macOS
 
@@ -95,8 +99,8 @@ codex login status
 #### 2. Download and install the app
 
 ```bash
-git clone https://github.com/montorox/cs-board-codex.git
-cd cs-board-codex
+git clone https://github.com/montorox/videosketchit.git
+cd videosketchit
 
 python3.11 -m venv .venv
 uv pip install --python .venv/bin/python -r webapp/requirements.txt
@@ -114,8 +118,8 @@ cd ..
 #### 3. Start the app
 
 ```bash
-chmod +x start-codex.command
-./start-codex.command
+chmod +x start-videosketchit.command VideoSketchIt.command
+./start-videosketchit.command
 ```
 
 The launcher starts both local services and opens `http://127.0.0.1:13010`.
@@ -152,8 +156,8 @@ codex login status
 #### 2. Download and install the app
 
 ```powershell
-git clone https://github.com/montorox/cs-board-codex.git
-Set-Location cs-board-codex
+git clone https://github.com/montorox/videosketchit.git
+Set-Location videosketchit
 
 py -3.11 -m venv .venv
 uv pip install --python .venv\Scripts\python.exe -r webapp\requirements.txt
@@ -172,10 +176,10 @@ Pop-Location
 
 #### 3. Start the app
 
-Double-click `start-codex.bat`, or run:
+Double-click `VideoSketchIt.bat`, or run:
 
 ```powershell
-.\start-codex.bat
+.\start-videosketchit.bat
 ```
 
 The launcher starts both local services and opens `http://127.0.0.1:13010`.
@@ -225,14 +229,14 @@ The first run may download a Whisper alignment model. Later jobs reuse the cache
 
 ## Privacy and credentials
 
-- Job data, uploaded media, logs, and generated videos stay in `.cs-board-codex/` unless you move or share them.
-- `.cs-board-codex/`, `.venv/`, `node_modules/`, media outputs, `.env` files, and logs are excluded by `.gitignore`.
+- Job data, uploaded media, logs, and generated videos stay in `.videosketchit/` unless you move or share them.
+- `.videosketchit/`, the legacy `.cs-board-codex/`, `.venv/`, `node_modules/`, media outputs, `.env` files, and logs are excluded by `.gitignore`.
 - Never publish `.codex/auth.json`, API keys, tokens, private voice samples, or generated client projects.
 - Do not expose the local backend or Codex execution to an untrusted public network.
 
 ## Credits and upstream project
 
-This edition is based on [ChenShuo2004/cs-board](https://github.com/ChenShuo2004/cs-board), released under the MIT License. The original author describes the upstream project as a local tool for turning reference audio and Chinese scripts into whiteboard animation videos. Please star and credit the upstream project as well as this adaptation.
+VideoSketchIt is based on [ChenShuo2004/cs-board](https://github.com/ChenShuo2004/cs-board), released under the MIT License. The original author describes the upstream project as a local tool for turning reference audio and Chinese scripts into whiteboard animation videos. Please star and credit the upstream project as well as this adaptation.
 
 For the original Windows/OpenLux-oriented edition, installation questions, and upstream changes, use the [original repository](https://github.com/ChenShuo2004/cs-board).
 
@@ -445,6 +449,6 @@ This project is an independent adaptation of **CS Board**, originally created an
 - Original repository: [https://github.com/ChenShuo2004/cs-board](https://github.com/ChenShuo2004/cs-board)
 - Original license: [MIT License](https://github.com/ChenShuo2004/cs-board/blob/main/LICENSE)
 
-The upstream project provided the foundation for the whiteboard-animation workflow, rendering tools, semantic timing system, and browser workspace. This Codex Edition adds a separate authentication and generation path, English-facing workflows, macOS support, finished-narration uploads, and other independent changes. It is a community adaptation and is not presented as an official release or endorsement by the upstream maintainer.
+The upstream project provided the foundation for the whiteboard-animation workflow, rendering tools, semantic timing system, and browser workspace. VideoSketchIt adds a separate provider and authentication path, English-facing workflows, macOS support, finished-narration uploads, and other independent changes. It is a community adaptation and is not presented as an official release or endorsement by the upstream maintainer.
 
 Please visit and support the original repository. Users who want the original edition should install it directly from the upstream link above.

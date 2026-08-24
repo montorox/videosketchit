@@ -2,4 +2,4 @@
 set -euo pipefail
 
 APP_ROOT="${0:A:h}"
-exec "$APP_ROOT/start-codex.command"
+exec "$APP_ROOT/start-videosketchit.command"

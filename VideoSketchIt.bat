@@ -2,8 +2,8 @@
 setlocal
 cd /d "%~dp0"
 
-if not exist "start-webapp.ps1" (
-    echo Startup file start-webapp.ps1 was not found.
+if not exist "start-videosketchit.bat" (
+    echo Startup file start-videosketchit.bat was not found.
     pause
     exit /b 1
 )
@@ -27,13 +27,5 @@ if not exist "web\node_modules" (
     exit /b 1
 )
 
-echo Starting the whiteboard video workshop...
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0start-webapp.ps1"
-if errorlevel 1 (
-    echo.
-    echo Startup failed. See .webapp\launcher-error.log for details.
-    pause
-    exit /b 1
-)
-
-exit /b 0
+call "%~dp0start-videosketchit.bat"
+exit /b %errorlevel%

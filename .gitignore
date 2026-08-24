@@ -1,6 +1,7 @@
 # Local secrets and generated jobs
 .webapp/
 .cs-board-codex/
+.videosketchit/
 .env
 .env.*
 !.env.example
