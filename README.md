@@ -2,6 +2,12 @@
 
 **Turn scripts and narration into animated sketch videos.**
 
+> ### Use your existing ChatGPT plan
+>
+> VideoSketchIt connects through Codex using **Sign in with ChatGPT**. No OpenAI API key is required for the default workflow. Planning and illustration generation use your available Codex allowance, while animation and final video rendering run locally.
+>
+> Usage limits depend on your ChatGPT plan. Additional credits may be required after your included usage is exhausted.
+
 ![VideoSketchIt by AIDB — scripts to animated videos](docs/videosketchit-social-thumbnail.png)
 
 VideoSketchIt by AIDB is a local, open-source video creator and an independent adaptation of [ChenShuo2004/cs-board](https://github.com/ChenShuo2004/cs-board). The current AI provider uses each user's own ChatGPT/Codex sign-in for planning and illustrations. Audio processing, alignment, animation, project files, and final rendering remain on the user's computer. The product identity is provider-independent so additional agents and services can be added in future releases.
