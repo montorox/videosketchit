@@ -21,6 +21,8 @@ assert SPEC and SPEC.loader
 SERVER = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(SERVER)
 
+from scripts.add_key_text import clean_key_text
+
 
 class QueueResumeTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -61,6 +63,24 @@ class QueueResumeTests(unittest.TestCase):
 
     def test_explicit_task_name_is_preserved(self) -> None:
         self.assertEqual(SERVER.normalized_task_name("  我的任务  ", "备用文案", "job-test"), "我的任务")
+
+    def test_key_text_preserves_spaces_in_english(self) -> None:
+        self.assertEqual(clean_key_text("  Cash Flow Crisis!  "), "Cash Flow Crisis")
+
+    def test_key_text_keeps_compact_chinese_limit(self) -> None:
+        self.assertEqual(clean_key_text("纸面上的百分之一", 6), "纸面上的百分")
+
+    def test_standard_storyboard_requires_source_language_for_visible_text(self) -> None:
+        response = [
+            {"title": "Paper Wealth", "key_text": "Paper Wealth", "concept": "A wealthy founder", "elements": ["founder watches city", "luxury watch shines", "car waits below"]},
+            {"title": "Frozen Credit", "key_text": "Frozen Credit", "concept": "The bank freezes credit", "elements": ["bank locks account", "credit line freezes", "founder checks phone"]},
+        ]
+        with mock.patch.object(SERVER, "codex_text_response", return_value={"output_text": json.dumps(response)}) as generate:
+            scenes = SERVER.make_plan({}, "The company looks wealthy! Its credit line is frozen.", 20, SERVER.DEFAULT_STYLE)
+
+        prompt = generate.call_args.args[0]
+        self.assertIn("原文是英文时，这些字段必须全部使用英文", prompt)
+        self.assertEqual([scene["key_text"] for scene in scenes], ["Paper Wealth", "Frozen Credit"])
 
     def test_custom_reference_prompt_replaces_default_character(self) -> None:
         prompt = SERVER.build_board_prompt(

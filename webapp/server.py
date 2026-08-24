@@ -1039,8 +1039,10 @@ def make_plan(
             f"[{item['id']}｜{item['spoken_start_ms']}–{item['spoken_end_ms']}ms] {item['text']}"
             for item in phrase_items
         )
-        prompt = f"""你是中文口播动态 PPT 的内容编辑。短语与真实音频时间已经在上一步确定；你只梳理页面结构，不得重新估算时间。
+        prompt = f"""你是口播动态 PPT 的内容编辑。短语与真实音频时间已经在上一步确定；你只梳理页面结构，不得重新估算时间。
 总口播时长约 {duration:.1f} 秒，最多 {requested_count} 页。画面风格和插图在后续步骤处理。
+
+最重要的语言规则：所有观众可见文字，包括 series_title、chapter_title、page_title、key_text、key_items.label 和 conclusion，都必须与原文使用相同语言。原文是英文时必须输出英文，禁止翻译成中文。
 
 分页原则：
 1. 一般用本页第一条短语作为中心句的依据，浓缩为 page_title；关键词只辅助中心句，不得抢成另一套观点。
@@ -1068,11 +1070,12 @@ def make_plan(
 完整短语时间表：
 {numbered_phrases}"""
     else:
-        prompt = f"""你是中文白板动画分镜导演。下面已经把文案固定拆成 {scene_count} 幕。
+        prompt = f"""你是白板动画分镜导演。下面已经把文案固定拆成 {scene_count} 幕。
 总口播时长约 {duration:.1f} 秒。风格：{style}。
 严格按幕输出 title、key_text、concept、elements，不要输出或改写原文。
-key_text 是给观众看的中文重点短语，必须准确概括本幕原文，只写 4～10 个汉字，不加标点，不得编造原文没有的观点。
-elements 必须是恰好 3 个具体可画的中文短语，按叙事顺序排列；每项必须包含主体和动作或物体，禁止使用抽象词。
+最重要的语言规则：title、key_text 和 elements 必须与对应原文使用相同语言，禁止翻译成中文或其他语言。原文是英文时，这些字段必须全部使用英文。
+key_text 是给观众看的重点短语，必须准确概括本幕原文；中文写 4～10 个汉字，使用空格分词的语言写 2～6 个简短单词。不加首尾标点，不得编造原文没有的观点。
+elements 必须是恰好 3 个使用原文语言的具体可画短语，按叙事顺序排列；每项必须包含主体和动作或物体，禁止使用抽象词。
 {character_rule}
 {paper_rule}
 每幕只讲一个清晰事件，禁止加入原文没有的童年、旅行、花鸟、山水、宠物等内容。
@@ -1108,13 +1111,14 @@ elements 必须是恰好 3 个具体可画的中文短语，按叙事顺序排�
         raise RuntimeError(f"分镜模型连续 3 次返回无效结果：{last_plan_error}")
     from scripts.add_key_text import clean_key_text
     series_title = ""
+    default_key_text = "本幕重点" if re.search(r"[\u3400-\u9fff]", copy) else "Key point"
     for i, scene in enumerate(scenes):
         if infographic:
-            scene["key_text"] = clean_key_text(str(scene.get("key_text") or scene.get("page_title") or "本页重点"), 16)
+            scene["key_text"] = clean_key_text(str(scene.get("key_text") or scene.get("page_title") or default_key_text), 16)
         else:
             scene["text"] = segments[i]
             key_text = clean_key_text(str(scene.get("key_text") or scene.get("title") or segments[i]), 10)
-            scene["key_text"] = key_text or clean_key_text(segments[i], 10) or "本幕重点"
+            scene["key_text"] = key_text or clean_key_text(segments[i], 10) or default_key_text
     if not infographic:
         fit_scene_durations(scenes, duration)
     for scene in scenes:

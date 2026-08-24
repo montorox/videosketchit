@@ -18,9 +18,15 @@ FONT_CANDIDATES = (
 
 
 def clean_key_text(value: str, limit: int = 10) -> str:
-    text = re.sub(r"[\s\r\n]+", "", str(value))
+    text = re.sub(r"[\s\r\n]+", " ", str(value)).strip()
     text = re.sub(r"^[，。！？!?；;：:、·—\-]+|[，。！？!?；;：:、·—\-]+$", "", text)
-    return text[:limit]
+    if re.search(r"[\u3400-\u9fff]", text):
+        return text.replace(" ", "")[:limit]
+    max_characters = max(24, limit * 3)
+    if len(text) <= max_characters:
+        return text
+    shortened = text[: max_characters + 1].rsplit(" ", 1)[0].strip()
+    return shortened or text[:max_characters].strip()
 
 
 def _font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
@@ -47,7 +53,7 @@ def add_key_text(image_path: Path, phrases: Sequence[str], output_path: Path | N
     image = Image.open(image_path).convert("RGBA")
     width, height = image.size
     cleaned = [clean_key_text(value) for value in phrases]
-    cleaned = [value or "本幕重点" for value in cleaned]
+    cleaned = [value or "Key point" for value in cleaned]
     count = max(1, len(cleaned))
     panel_width = width / count
     dark = _dark_background(image)
@@ -86,7 +92,7 @@ def add_key_text(image_path: Path, phrases: Sequence[str], output_path: Path | N
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="在分镜图顶部叠加准确的中文重点短语")
+    parser = argparse.ArgumentParser(description="在分镜图顶部叠加与文案语言一致的重点短语")
     parser.add_argument("image", type=Path)
     parser.add_argument("--text", action="append", required=True, help="按从左到右顺序重复传入")
     parser.add_argument("--output", type=Path)
