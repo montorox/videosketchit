@@ -107,8 +107,18 @@ class QueueResumeTests(unittest.TestCase):
             SERVER.PAPER_METAPHOR_STYLE,
             "输入图仅作为纸艺风格参考。",
         )
-        self.assertIn("动物、人物身份与年龄不得被替换", prompt)
+        self.assertIn("人物或动物的身份必须优先来自原文", prompt)
         self.assertNotIn("同一主角固定为：中国青年男性", prompt)
+
+    def test_standard_style_uses_context_instead_of_fixed_ethnicity(self) -> None:
+        prompt = SERVER.build_board_prompt(
+            [{"title": "Frozen credit", "concept": "A founder in New York checks a frozen account", "elements": ["founder checks phone"], "text": "The founder's credit line was frozen in New York."}],
+            SERVER.DEFAULT_STYLE,
+        )
+        self.assertIn("原文未指定国籍或族裔时，不得强制使用任何固定国籍或族裔", prompt)
+        self.assertIn("用于当前原文口播", prompt)
+        self.assertNotIn("中国青年", prompt)
+        self.assertNotIn("中文口播", prompt)
 
     def test_unknown_style_never_silently_falls_back(self) -> None:
         with self.assertRaisesRegex(RuntimeError, "后台未加载画面风格"):

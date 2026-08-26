@@ -187,6 +187,11 @@ def paper_metaphor_reference_context(scenes: list[dict[str, Any]]) -> tuple[list
 
 OIL_VISUAL_STYLE = "漫画墨线解释风"
 OIL_VISUAL_REFERENCE_DIR = ROOT / "assets" / "style-references" / "oil-visual"
+CONTEXT_CHARACTER_RULE = (
+    "人物或动物的身份必须优先来自原文。原文明确给出的国籍、族裔、性别、年龄、职业、时代、地点、服装或外貌不得替换。"
+    "只能根据原文支持的地点、时代、职业和情境补充合理细节；原文未指定国籍或族裔时，不得强制使用任何固定国籍或族裔，"
+    "应选择与故事环境和职业自然匹配的普通人物。所有分镜中的同一角色必须保持脸型、发型、年龄和服装一致。"
+)
 
 
 def oil_visual_reference_context(scenes: list[dict[str, Any]], infographic: bool = False) -> tuple[list[Path], str]:
@@ -213,7 +218,7 @@ def oil_visual_reference_context(scenes: list[dict[str, Any]], infographic: bool
     division = (
         "Remotion 已负责中文标题、标签、线条和关系结构，本图只生成插画证据。"
         if infographic else
-        "程序会另行添加中文重点文字，本图只生成视觉证据。"
+        "程序会另行添加与原文语言一致的重点文字，本图只生成视觉证据。"
     )
     instruction = (
         f"输入图仅作为漫画墨线视觉语言与“{visual_mode}”表达方式的参考，不提供本页文字或具体故事。"
@@ -1019,9 +1024,7 @@ def make_plan(
         "原文指定的人物或动物身份必须优先保持；没有指定身份且确实需要讲解角色时，使用戴细圆框眼镜的圆头极简线人。"
         "暖黄色边牧只在陪伴、协作或生活化角色场景中出现，抽象机制页不要强塞人物或宠物。同一角色外观保持一致。"
         if style == OIL_VISUAL_STYLE else
-        "主角必须严格来自原文；原文是动物就保持该动物，原文没有指定身份时才使用普通中国青年。所有分镜中的同一角色外观保持一致。"
-        if style == PAPER_METAPHOR_STYLE else
-        "同一位主角始终是“中国青年男性，短黑发，朴素深色上衣”，人物外观必须保持一致。"
+        CONTEXT_CHARACTER_RULE
     )
     paper_rule = (
         "额外为每幕输出 visual_structure 和 metaphor：visual_structure 只能从定义、流程、对比、层级、因果、清单、时间、矩阵中选择一项；"
@@ -1138,9 +1141,9 @@ def build_image_prompt(scene: dict[str, Any], style: str) -> str:
     character_instruction = (
         "原文指定的人物或动物身份优先；没有指定身份且确实需要通用讲解角色时，才使用戴细圆框眼镜的圆头极简线人。暖黄边牧仅在语义合适时陪伴，不强制出现。"
         if style == OIL_VISUAL_STYLE else
-        "同一主角固定为：中国青年男性，短黑发，朴素深色上衣，普通人形象；不要改变年龄与外貌。"
+        CONTEXT_CHARACTER_RULE
     )
-    return f"""生成一张用于中文口播的 16:9 白板动画分镜原画。
+    return f"""生成一张用于当前原文口播的 16:9 白板动画分镜原画。
 风格名称：{style}。
 视觉配方：{style_recipe(style)}
 必须严格执行这套视觉配方，不得自动改回其他白板风格；人物、物体和配色都要让所选风格一眼可辨。
@@ -1160,7 +1163,7 @@ def build_board_prompt(scenes: list[dict[str, Any]], style: str, reference_instr
         scene = scenes[0]
         elements = "、".join(scene.get("illustration_elements") or scene.get("nodes") or [])
         reference_block = f"视觉参考使用规则：{reference_instruction}\n" if reference_instruction else ""
-        return f"""生成一张 16:9 中文知识解说视频的独立插画素材。
+        return f"""生成一张 16:9 知识解说视频的独立插画素材。
 所选画面风格：{style}。视觉配方：{style_recipe(style)}
 {reference_block}必须让画面在 3 秒内认出主体、10 秒内看懂观点证据；不是装饰性配图。
 画面只画以下具象内容：{elements}。对应观点：{scene.get('concept', '')}。
@@ -1190,12 +1193,10 @@ PPT 已确定的视觉策略：{scene.get('visual_strategy', '左侧文字，右
         if use_character_references else
         "原文指定的人物或动物身份优先；未指定身份且确实需要通用角色时才使用戴细圆框眼镜的圆头极简线人，暖黄边牧仅在语义合适时作为陪伴角色。"
         if style == OIL_VISUAL_STYLE else
-        "主角必须严格来自原文；动物、人物身份与年龄不得被替换，同一角色在所有分镜中保持一致。"
-        if style == PAPER_METAPHOR_STYLE else
-        "同一主角固定为：中国青年男性，短黑发，朴素深色上衣，普通人形象；所有分镜中的年龄与外貌保持一致。"
+        CONTEXT_CHARACTER_RULE
     )
     reference_block = f"参考图说明：\n{reference_instruction}\n" if reference_instruction else ""
-    return f"""{reference_block}生成一张用于中文口播的 16:9 白板动画原画，一张图承载 {len(scenes)} 个连续分镜。
+    return f"""{reference_block}生成一张用于当前原文口播的 16:9 白板动画原画，一张图承载 {len(scenes)} 个连续分镜。
 风格名称：{style}。
 {style_instruction}
 {character_instruction}
